@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Ensure Angular root component doesn't block background */
+app-root {
+    display: block;
+    height: 100%;
+    background-color: transparent;
+    /* Explicitly allow body background to show through */
+}
+
+/* Ensure material components don't block background */
+.mat-typography {
+    background: transparent;
+}
+
+/* Global overrides for type chips to ensure contrast */
+.custom-type-chip {
+    /* color: white !important;  <-- Removed to allow dynamic color */
+    color: #333;
+    /* Default text color */
+    /* --mdc-chip-label-text-color: white !important; <-- Removed */
+    /* For newer Material versions */
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}

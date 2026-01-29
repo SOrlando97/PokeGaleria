@@ -1,0 +1,46 @@
+<!-- Hero Section -->
+<!-- Hero Section -->
+<header class="hero-section mb-4">
+    <div class="container h-100 d-flex flex-column hero-content-container">
+        <h1 class="display-4 fw-bold mb-3 text-dark">
+            Bienvenido a la <span class="text-primary">PokeGalería</span>
+        </h1>
+        <p class="lead text-muted mb-0">
+            Explora pokemons aleatorios, descubre sus tipos y evoluciones.
+        </p>
+    </div>
+</header>
+
+<div class="container pb-5 mb-4">
+    <div *ngIf="loading" class="d-flex justify-content-center align-items-center" style="height: 50vh;">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="!loading" class="row g-4">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let pokemon of pokemons">
+            <mat-card class="h-100 hover-card border-0" [style.background]="pokemon.backgroundStyle">
+                <div class="card-image-container p-4 d-flex justify-content-center">
+                    <img mat-card-image [src]="pokemon.image" [alt]="pokemon.name" class="pokemon-img">
+                </div>
+                <mat-card-header class="justify-content-center pb-2">
+                    <mat-card-title class="text-capitalize text-white fw-bold display-6"
+                        style="text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">{{ pokemon.name }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="flex-grow-1 text-center">
+                    <mat-chip-set class="justify-content-center">
+                        <mat-chip *ngFor="let type of pokemon.types" class="text-capitalize fw-bold"
+                            [style.background-color]="getTypeColor(type)" [style.color]="getTextColor(type)"
+                            [style.--mdc-chip-elevated-container-color]="getTypeColor(type)"
+                            style="border: 1px solid rgba(255,255,255,0.4);">
+                            {{ type }}
+                        </mat-chip>
+                    </mat-chip-set>
+                </mat-card-content>
+                <mat-card-actions class="d-flex justify-content-center pb-3">
+                    <button mat-raised-button color="accent" [routerLink]="['/pokemon', pokemon.name]"
+                        class="w-75 fw-bold rounded-pill shadow-sm">Ver Detalle</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,134 @@
+.hover-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    overflow: hidden;
+    color: white;
+    /* Ensure text is readable on colored backgrounds */
+}
+
+/* Hero Section */
+.hero-section {
+    width: 100%;
+    /* Default Mobile Styles */
+    background-image: url('../../../assets/hero-mobile.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Aspect ratio or fixed height for mobile */
+    min-height: 550px;
+    /* Increased height to see full image */
+    padding: 2rem !important;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+    display: flex;
+    align-items: flex-start;
+    /* Align content to top (Mobile) */
+}
+
+.hero-content-container {
+    /* Mobile: Text in the top white box */
+    justify-content: flex-start;
+    padding-top: 1rem;
+    /* Move up significantly */
+    text-align: center;
+    width: 100%;
+}
+
+/* Mobile Typography Overrides */
+.hero-content-container h1 {
+    font-size: 1.8rem;
+    /* Smaller title for mobile */
+    margin-bottom: 0.5rem !important;
+}
+
+.hero-content-container p {
+    font-size: 0.9rem;
+    /* Smaller subtitle */
+    padding: 0 1rem;
+    /* Prevent text touching edges */
+}
+
+
+/* Desktop Styles */
+@media (min-width: 768px) {
+    .hero-section {
+        background-image: url('../../../assets/hero-desktop.png');
+        min-height: 500px;
+        /* Increased from 400px */
+        border-radius: 20px;
+        margin-top: 1rem;
+        align-items: center;
+        /* Vertically center content (Desktop) */
+    }
+
+    .hero-content-container {
+        /* Desktop: Text on the right side */
+        justify-content: center;
+        /* Vertically center internal content */
+        align-items: flex-end;
+        /* Horizontally align right */
+        text-align: left;
+        /* User requested left alignment */
+        padding-right: 3rem;
+        /* Reduced padding to move text more to the right */
+        padding-top: 0;
+        /* Reset mobile padding */
+        width: 100%;
+    }
+
+    .hero-content-container>* {
+        max-width: 40%;
+        /* Reduced width to clear illustration */
+    }
+
+    /* Restore Desktop Typography */
+    .hero-content-container h1 {
+        font-size: 3.5rem;
+        /* Restore large title */
+        margin-bottom: 1rem !important;
+    }
+
+    .hero-content-container p {
+        font-size: 1.25rem;
+        /* Restore larger subtitle */
+        padding: 0;
+    }
+}
+
+.hero-section h1 {
+    text-shadow: none;
+    /* Clean look on white card */
+}
+
+.card-hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    z-index: 10;
+}
+
+.hover-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    z-index: 10;
+}
+
+.pokemon-img {
+    object-fit: contain;
+    height: 180px;
+    width: 100%;
+    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s ease;
+}
+
+.hover-card:hover .pokemon-img {
+    transform: scale(1.15) rotate(5deg);
+}
+
+/* Override mat-card background to be transparent so gradient shows clearly if set on host, 
+   but here we set it on mat-card so it's fine. 
+   We might need to adjust mat-chip to look good on colorful background */
+mat-chip {
+    /* Ensure custom background color takes precedence over default gray */
+    --mdc-chip-elevated-container-color: transparent;
+}

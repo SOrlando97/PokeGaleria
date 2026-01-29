@@ -1,0 +1,77 @@
+.detail-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Fill the dialog container */
+    overflow: hidden;
+    /* Keep border-radius clipping */
+    border-radius: 8px;
+}
+
+/* Ensure content takes available space and scrolls */
+mat-dialog-content {
+    flex: 1;
+    overflow-y: auto;
+    max-height: none !important;
+    /* Let flex handle height */
+}
+
+/* Remove default padding from dialog title to let header touch edges */
+::ng-deep .mat-typography h2 {
+    margin: 0;
+}
+
+.header-background {
+    flex-shrink: 0;
+    /* Keep header fixed size */
+    position: relative;
+    clip-path: ellipse(150% 100% at 50% 0%);
+    padding-bottom: 3rem !important;
+    margin-bottom: -2rem;
+    z-index: 1;
+    /* Ensure it stays above scrolled content if needed, though scroll starts below */
+}
+
+.evolution-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.evolution-card:hover {
+    transform: translateY(-5px);
+}
+
+.drop-shadow {
+    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.drop-shadow:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.animate-pop-in {
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+@keyframes popIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.ls-1 {
+    letter-spacing: 1px;
+}
+
+.ability-chip {
+    transition: all 0.2s;
+}
+
+.ability-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
