@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Si la solicitud es para un archivo o carpeta válido, no hacer nada
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  
+  # Redirigir todas las solicitudes a index.html para que Angular maneje el enrutamiento
+  RewriteRule ^ index.html [QSA,L]
+</IfModule>
