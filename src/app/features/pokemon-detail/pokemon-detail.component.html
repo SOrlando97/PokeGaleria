@@ -92,9 +92,6 @@
                                 <i class="bi bi-arrow-right"></i>
                             </div>
 
-                            <!-- Current (Visual Indicator) -->
-                            <!-- Optional: Show current small if wanted, but main view is current. Let's just show next. -->
-
                             <!-- Next Evolutions -->
                             <div *ngFor="let evo of nextEvolutions" class="text-center evolution-card"
                                 (click)="navigateToPokemon(evo.name)">
@@ -113,7 +110,6 @@
                                 <small class="text-muted d-block" style="font-size: 0.7rem;"
                                     *ngIf="evo.trigger === 'trade'">Intercambio</small>
                             </div>
-
                         </div>
                     </div>
                 </div>

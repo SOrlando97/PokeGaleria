@@ -32,7 +32,6 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   private routeSub: Subscription | null = null;
   private dialogRef: MatDialogRef<PokemonDetailComponent> | null = null;
 
-  // Track current open dialog to avoid duplicates
   currentDialogName: string | null = null;
 
   constructor(

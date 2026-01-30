@@ -129,14 +129,13 @@ export class PokemonDetailComponent implements OnInit {
   }
 
   parseEvolutionChain(chain: any): void {
-    // Traverse recursively to find current pokemon
+
     const traverse = (node: any, parent: any | null) => {
       const nodeName = node.species.name;
 
       if (nodeName.toLowerCase() === this.pokemon?.name.toLowerCase()) {
-        // Found current!
 
-        // 1. Get Prev (Parent)
+        // 1. anterior hijo
         if (parent) {
           this.prevEvolution = {
             name: parent.species.name,
@@ -147,7 +146,7 @@ export class PokemonDetailComponent implements OnInit {
           };
         }
 
-        // 2. Get Next (Children)
+        // 2. siguiente hijo
         if (node.evolves_to && node.evolves_to.length > 0) {
           this.nextEvolutions = node.evolves_to.map((child: any) => ({
             name: child.species.name,
@@ -160,7 +159,7 @@ export class PokemonDetailComponent implements OnInit {
         return;
       }
 
-      // Continue searching in children
+      // continua buscando hijos
       if (node.evolves_to && node.evolves_to.length > 0) {
         node.evolves_to.forEach((child: any) => traverse(child, node));
       }
@@ -175,9 +174,6 @@ export class PokemonDetailComponent implements OnInit {
   }
 
   navigateToPokemon(name: string): void {
-    // Reload current component logic or close/open? 
-    // Simplest: Close and let list open new one? No, bad UX.
-    // Better: Call loadPokemon logic again within same dialog.
     this.loadPokemon(name);
   }
 
