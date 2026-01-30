@@ -1,19 +1,24 @@
-<div *ngIf="loading" class="d-flex justify-content-center align-items-center p-5"
-    style="height: 100%; min-height: 400px; width: 100%; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
-    <mat-spinner diameter="50"></mat-spinner>
-</div>
-
-<div *ngIf="error" class="d-flex flex-column justify-content-center align-items-center p-5 text-center"
-    style="height: 100%; min-height: 300px; width: 100%;">
-    <div class="mb-3 text-danger" style="font-size: 3rem;">
-        <i class="bi bi-exclamation-circle"></i>
+@if (loading) {
+    <div class="d-flex justify-content-center align-items-center p-5"
+        style="height: 100%; min-height: 400px; width: 100%; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+        <mat-spinner diameter="50"></mat-spinner>
     </div>
-    <h3 class="fw-bold mb-3">¡Vaya!</h3>
-    <p class="text-muted mb-4 lead">{{ error }}</p>
-    <button mat-raised-button color="primary" mat-dialog-close>Cerrar</button>
-</div>
+}
 
-<div *ngIf="!loading && !error && pokemon" class="detail-container">
+@if (error) {
+    <div class="d-flex flex-column justify-content-center align-items-center p-5 text-center"
+        style="height: 100%; min-height: 300px; width: 100%;">
+        <div class="mb-3 text-danger" style="font-size: 3rem;">
+            <i class="bi bi-exclamation-circle"></i>
+        </div>
+        <h3 class="fw-bold mb-3">¡Vaya!</h3>
+        <p class="text-muted mb-4 lead">{{ error }}</p>
+        <button mat-raised-button color="primary" mat-dialog-close>Cerrar</button>
+    </div>
+}
+
+@if (!loading && !error && pokemon) {
+    <div class="detail-container">
     <div class="header-background p-4 text-center rounded-top" [style.background]="pokemon.backgroundStyle">
         <h2 mat-dialog-title class="text-capitalize fw-bold display-5 mb-0"
             [style.color]="getTextColor(pokemon.types[0])" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.3);">{{
@@ -29,12 +34,14 @@
                 <div class="col-12 text-center mb-4">
                     <mat-chip-set class="justify-content-center">
                         <!-- Use style.background for custom chip colors if needed, but keeping simple for now -->
-                        <mat-chip class="text-capitalize fw-bold" *ngFor="let type of pokemon.types"
-                            [style.background-color]="getTypeColor(type)" [style.color]="getTextColor(type)"
-                            [style.--mdc-chip-elevated-container-color]="getTypeColor(type)"
-                            style="border: 1px solid rgba(255,255,255,0.4);">
-                            {{ type }}
-                        </mat-chip>
+                        @for (type of pokemon.types; track type) {
+                            <mat-chip class="text-capitalize fw-bold"
+                                [style.background-color]="getTypeColor(type)" [style.color]="getTextColor(type)"
+                                [style.--mdc-chip-elevated-container-color]="getTypeColor(type)"
+                                style="border: 1px solid rgba(255,255,255,0.4);">
+                                {{ type }}
+                            </mat-chip>
+                        }
                     </mat-chip-set>
                 </div>
 
@@ -55,63 +62,79 @@
                     <div class="mb-3 text-center">
                         <h6 class="fw-bold text-muted mb-3 text-uppercase small ls-1">Habilidades</h6>
                         <mat-chip-set class="justify-content-center">
-                            <mat-chip class="text-capitalize" *ngFor="let ability of pokemon.abilities"
-                                [matTooltip]="ability.description || 'Cargando descripción...'"
-                                matTooltipPosition="above" class="ability-chip">
-                                {{ ability.name }}
-                            </mat-chip>
+                            @for (ability of pokemon.abilities; track ability.name) {
+                                <mat-chip class="text-capitalize"
+                                    [matTooltip]="ability.description || 'Cargando descripción...'"
+                                    matTooltipPosition="above" class="ability-chip">
+                                    {{ ability.name }}
+                                </mat-chip>
+                            }
                         </mat-chip-set>
                     </div>
 
                     <!-- Evolutions Section -->
-                    <div *ngIf="!evoLoading && (prevEvolution || nextEvolutions.length > 0)"
-                        class="mt-4 pt-4 border-top">
-                        <h6 class="fw-bold text-muted mb-4 text-center text-uppercase small ls-1">Cadena de Evolución
-                        </h6>
+                    @if (!evoLoading && (prevEvolution || nextEvolutions.length > 0)) {
+                        <div class="mt-4 pt-4 border-top">
+                            <h6 class="fw-bold text-muted mb-4 text-center text-uppercase small ls-1">Cadena de Evolución
+                            </h6>
 
-                        <div class="d-flex justify-content-center align-items-center flex-wrap gap-4">
+                            <div class="d-flex justify-content-center align-items-center flex-wrap gap-4">
 
                             <!-- Previous Evolution -->
-                            <div *ngIf="prevEvolution" class="text-center evolution-card"
-                                (click)="navigateToPokemon(prevEvolution.name)">
-                                <div class="position-relative mb-2">
-                                    <img [src]="prevEvolution.image" class="rounded-circle bg-light border shadow-sm"
-                                        style="width: 80px; height: 80px; object-fit: contain;">
-                                    <span
-                                        class="badge bg-secondary position-absolute top-0 start-100 translate-middle rounded-pill"
-                                        style="font-size: 0.6rem;">Pre</span>
+                            @if (prevEvolution) {
+                                <div class="text-center evolution-card"
+                                    (click)="navigateToPokemon(prevEvolution.name)">
+                                    <div class="position-relative mb-2">
+                                        <img [src]="prevEvolution.image" class="rounded-circle bg-light border shadow-sm"
+                                            style="width: 80px; height: 80px; object-fit: contain;">
+                                        <span
+                                            class="badge bg-secondary position-absolute top-0 start-100 translate-middle rounded-pill"
+                                            style="font-size: 0.6rem;">Pre</span>
+                                    </div>
+                                    <h6 class="text-capitalize fw-bold mb-0 small">{{ prevEvolution.name }}</h6>
+                                    @if (prevEvolution.min_level) {
+                                        <small class="text-muted d-block" style="font-size: 0.7rem;">Lvl {{ prevEvolution.min_level }}</small>
+                                    }
+                                    @if (prevEvolution.item) {
+                                        <small class="text-muted d-block" style="font-size: 0.7rem;">Item</small>
+                                    }
                                 </div>
-                                <h6 class="text-capitalize fw-bold mb-0 small">{{ prevEvolution.name }}</h6>
-                                <small class="text-muted d-block" style="font-size: 0.7rem;"
-                                    *ngIf="prevEvolution.min_level">Lvl {{ prevEvolution.min_level }}</small>
-                                <small class="text-muted d-block" style="font-size: 0.7rem;"
-                                    *ngIf="prevEvolution.item">Item</small>
-                            </div>
+                            }
 
-                            <div *ngIf="prevEvolution && nextEvolutions.length > 0" class="text-muted">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
+                            @if (prevEvolution && nextEvolutions.length > 0) {
+                                <div class="text-muted">
+                                    <i class="bi bi-arrow-right"></i>
+                                </div>
+                            }
 
                             <!-- Next Evolutions -->
-                            <div *ngFor="let evo of nextEvolutions" class="text-center evolution-card"
-                                (click)="navigateToPokemon(evo.name)">
-                                <div class="position-relative mb-2">
-                                    <img [src]="evo.image" class="rounded-circle bg-light border shadow-sm"
-                                        style="width: 80px; height: 80px; object-fit: contain;">
-                                    <span
-                                        class="badge bg-primary position-absolute top-0 start-100 translate-middle rounded-pill"
-                                        style="font-size: 0.6rem;">Evo</span>
+                            @for (evo of nextEvolutions; track evo.name) {
+                                <div class="text-center evolution-card"
+                                    (click)="navigateToPokemon(evo.name)">
+                                    <div class="position-relative mb-2">
+                                        <img [src]="evo.image" class="rounded-circle bg-light border shadow-sm"
+                                            style="width: 80px; height: 80px; object-fit: contain;">
+                                        <span
+                                            class="badge bg-primary position-absolute top-0 start-100 translate-middle rounded-pill"
+                                            style="font-size: 0.6rem;">Evo</span>
+                                    </div>
+                                    <h6 class="text-capitalize fw-bold mb-0 small">{{ evo.name }}</h6>
+                                    @if (evo.min_level) {
+                                        <small class="text-muted d-block" style="font-size: 0.7rem;">Lvl
+                                            {{ evo.min_level }}</small>
+                                    }
+                                    @if (evo.item) {
+                                        <small class="text-muted d-block" style="font-size: 0.7rem;">{{
+                                            evo.item }}</small>
+                                    }
+                                    @if (evo.trigger === 'trade') {
+                                        <small class="text-muted d-block" style="font-size: 0.7rem;">Intercambio</small>
+                                    }
                                 </div>
-                                <h6 class="text-capitalize fw-bold mb-0 small">{{ evo.name }}</h6>
-                                <small class="text-muted d-block" style="font-size: 0.7rem;" *ngIf="evo.min_level">Lvl
-                                    {{ evo.min_level }}</small>
-                                <small class="text-muted d-block" style="font-size: 0.7rem;" *ngIf="evo.item">{{
-                                    evo.item }}</small>
-                                <small class="text-muted d-block" style="font-size: 0.7rem;"
-                                    *ngIf="evo.trigger === 'trade'">Intercambio</small>
+                            }
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
@@ -120,4 +143,5 @@
     <mat-dialog-actions align="center" class="pb-4">
         <button mat-flat-button color="warn" mat-dialog-close class="px-5 rounded-pill">Cerrar</button>
     </mat-dialog-actions>
-</div>
+    </div>
+}
